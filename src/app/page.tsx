@@ -12,7 +12,7 @@ export default function Home() {
   const apiUrl = "/api/graphql";
 
   const handleSubmit = async () => {
-    const apiUrl = "http://localhost:3000/api/graphql";
+    const apiUrl = "/api/graphql";
 
     const loginMutation = `
   mutation LogIn($input: logInInput) {
