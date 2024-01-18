@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { InfuraProvider } from "ethers";
 import jwt from "jsonwebtoken";
 import { UserDocument } from "./datasources";
 
