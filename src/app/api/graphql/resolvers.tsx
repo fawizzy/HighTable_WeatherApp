@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { InfuraProvider } from "ethers";
 import jwt from "jsonwebtoken";
+import { UserDocument } from "./datasources";
 
 export const resolvers = {
   Query: {
@@ -34,7 +35,7 @@ export const resolvers = {
     ) => {
       try {
         const secretKey = process.env.JWT_SECRET_KEY;
-        let user = jwt.verify(token, secretKey!);
+        let user = jwt.verify(token, secretKey!) as UserDocument;
         user = await context.dataSources.users.getUser(user.email);
         return user;
       } catch (error) {

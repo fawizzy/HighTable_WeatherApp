@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [searchText, setSearchText] = useState("");
+  const [celcius, setCelsius] = useState(true);
+  const [mb, setMB] = useState(true);
+  const [mph, setMPH] = useState(true);
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
   const [locationData, setLocationData] = useState({
@@ -124,6 +127,12 @@ export default function Dashboard() {
         );
       });
   }
+
+  const toggleUnits = () => {
+    setCelsius((prevIsCelsius) => !prevIsCelsius);
+    setMPH((prevMPH) => !prevMPH);
+    setMB((prevMB) => !prevMB);
+  };
   function getFromLocalStorage() {
     return localStorage.getItem("token");
   }
@@ -138,6 +147,12 @@ export default function Dashboard() {
           Save Current Location
         </button>
       </div>
+      <button
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-4"
+        onClick={toggleUnits}
+      >
+        Switch Units
+      </button>
       <div className="mb-4">
         <input
           type="text"
@@ -178,14 +193,23 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p>
-                <strong>Temperature (°C):</strong>
-                <br /> {weather.temp_c}
+                {celcius ? (
+                  <strong>Temperature (°C):</strong>
+                ) : (
+                  <strong>Temperature (F):</strong>
+                )}
+                <br /> {celcius ? weather.temp_c : weather.temp_f}
               </p>
             </div>
             <div>
               <p>
-                <strong>Wind Speed (mph):</strong> <br />
-                {weather.wind_mph}
+                {mph ? (
+                  <strong>Wind Speed (mph):</strong>
+                ) : (
+                  <strong>Wind Speed (kph):</strong>
+                )}
+                <br />
+                {mph ? weather.wind_mph : weather.wind_kph}
               </p>
             </div>
             <div>
@@ -196,8 +220,13 @@ export default function Dashboard() {
             </div>
             <div>
               <p>
-                <strong>Pressure (mb):</strong> <br />
-                {weather.pressure_mb}
+                {mb ? (
+                  <strong>Pressure (mb):</strong>
+                ) : (
+                  <strong>Pressure (in):</strong>
+                )}{" "}
+                <br />
+                {mb ? weather.pressure_mb : weather.pressure_in}
               </p>
             </div>
             <div>

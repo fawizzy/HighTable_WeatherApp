@@ -2,7 +2,7 @@ import UserModel from "../models";
 import { MongoDataSource } from "apollo-datasource-mongodb";
 import { ObjectId } from "mongodb";
 
-interface UserDocument {
+export interface UserDocument {
   _id: ObjectId;
   username: string;
   password: string;
