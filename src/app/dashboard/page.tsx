@@ -28,7 +28,7 @@ export default function Dashboard() {
   });
   useEffect(() => {
     getUserDataFromToken();
-  }, []);
+  }, [getUserDataFromToken]);
 
   const getWeather = async (location: string) => {
     const data = await axios.get(

@@ -3,9 +3,10 @@ import { ApolloServer } from "@apollo/server";
 import { NextRequest } from "next/server";
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
-import mongoose from "mongoose";
-import Users from "./datasources";
+import mongoose, { Collection } from "mongoose";
+import Users, { UserDocument } from "./datasources";
 import UserModel from "./models";
+import { Model } from "apollo-datasource-mongodb";
 
 const uri = process.env.DATABASE_URL;
 
@@ -30,7 +31,11 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
   context: async (req, res) => ({
     req,
     res,
-    dataSources: { users: new Users({ modelOrCollection: UserModel }) },
+    dataSources: {
+      users: new Users({
+        modelOrCollection: UserModel as unknown as Collection<UserDocument>,
+      }),
+    },
   }),
 });
 export async function GET(request: NextRequest) {
