@@ -1,19 +1,60 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function SignUpPage() {
-  const [user, setUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onSignup = async () => {
-    // Your signup logic goes here
-    console.log(user);
+  const router = useRouter();
+  const apiUrl = "/api/graphql";
+
+  const handleSubmit = async () => {
+    const mutation = `
+      mutation Mutation($input: NewUserInput!) {
+        createUser(input: $input)
+      }
+    `;
+    const variables = {
+      input: { email, username, password },
+    };
+
+    console.log(variables);
+
+    axios
+      .post(
+        apiUrl,
+        {
+          query: mutation,
+          variables,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        const token = response.data?.data.createUser;
+        saveToLocalStorage(token);
+        router.push("/dashboard");
+        console.log("Response:", token);
+      })
+      .catch((error) => {
+        console.error(
+          "Error:",
+          error.response ? error.response.data : error.message
+        );
+      });
   };
 
+  const saveToLocalStorage = (token: string) => {
+    localStorage.setItem("token", token);
+  };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -36,9 +77,10 @@ export default function SignUpPage() {
                 id="email"
                 name="email"
                 type="email"
-                value={user.email}
                 onChange={(e) => {
-                  setUser({ ...user, email: e.target.value });
+                  e.preventDefault();
+                  console.log(e.target.value);
+                  setEmail(e.target.value);
                 }}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -58,9 +100,9 @@ export default function SignUpPage() {
                 id="username"
                 name="username"
                 type="text"
-                value={user.username}
                 onChange={(e) => {
-                  setUser({ ...user, username: e.target.value });
+                  e.preventDefault();
+                  setUsername(e.target.value);
                 }}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -82,9 +124,10 @@ export default function SignUpPage() {
                 id="password"
                 name="password"
                 type="password"
-                value={user.password}
+                value={password}
                 onChange={(e) => {
-                  setUser({ ...user, password: e.target.value });
+                  e.preventDefault();
+                  setPassword(e.target.value);
                 }}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -92,8 +135,8 @@ export default function SignUpPage() {
             </div>
           </div>
           <button
-            onClick={onSignup}
-            type="submit"
+            onClick={handleSubmit}
+            type="button"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign up

@@ -5,12 +5,64 @@ import axios from "axios";
 import Link from "next/link";
 
 export default function logInPage() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  const onSignup = async () => {};
+  const apiUrl = "/api/graphql";
+
+  const handleSubmit = async () => {
+    const apiUrl = "http://localhost:3000/api/graphql";
+
+    const loginMutation = `
+  mutation LogIn($input: logInInput) {
+    logIn(input: $input) {
+      token, user {
+        email
+      }
+    }
+  }
+`;
+
+    const loginVariables = {
+      input: {
+        email,
+        password,
+      },
+    };
+
+    axios
+      .post(
+        apiUrl,
+        {
+          query: loginMutation,
+          variables: loginVariables,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        const token = response.data.data.logIn.token;
+        const email = response.data.data.logIn.user.email;
+        if (email) {
+          saveToLocalStorage(token);
+          router.push("/dashboard");
+          console.log("Response:", email);
+        }
+      })
+      .catch((error) => {
+        console.error(
+          "Error:",
+          error.response ? error.response.data : error.message
+        );
+      });
+    const saveToLocalStorage = (token: string) => {
+      localStorage.setItem("token", token);
+    };
+  };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -34,6 +86,11 @@ export default function logInPage() {
                 name="email"
                 type="email"
                 autoComplete="email"
+                value={email}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setEmail(e.target.value);
+                }}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -54,6 +111,11 @@ export default function logInPage() {
                 id="password"
                 name="password"
                 type="password"
+                value={password}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setPassword(e.target.value);
+                }}
                 autoComplete="current-password"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -63,8 +125,9 @@ export default function logInPage() {
 
           <div>
             <button
-              type="submit"
+              type="button"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={handleSubmit}
             >
               Sign in
             </button>
