@@ -22,7 +22,7 @@ export default class Users extends MongoDataSource<UserDocument> {
 
   async getUser(email: any) {
     try {
-      console.log(email);
+      // console.log(email);
       return await UserModel.findOne({ email });
     } catch (error) {
       throw new Error("Failed to fetch users");
@@ -42,7 +42,7 @@ export default class Users extends MongoDataSource<UserDocument> {
   // Function to update existing user
   async updateUser({ input }: any) {
     try {
-      console.log(input);
+      // console.log(input);
       const updatedUser = await UserModel.findOneAndUpdate(
         { email: input.email },
         { $set: { location: input.location } },

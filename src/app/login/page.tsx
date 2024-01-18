@@ -9,8 +9,6 @@ export default function LogInPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const apiUrl = "/api/graphql";
-
   const handleSubmit = async () => {
     const apiUrl = "/api/graphql";
 

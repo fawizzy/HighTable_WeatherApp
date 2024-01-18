@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   const getWeather = async (location: string) => {
     const data = await axios.get(
-      `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
+      `https://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
     );
     setWeather(data.data.current);
     setLocationData(data.data.location);
@@ -40,7 +40,7 @@ export default function Dashboard() {
   async function getUserDataFromToken() {
     const axios = require("axios");
 
-    const apiUrl = "http://localhost:3000/api/graphql";
+    const apiUrl = "/api/graphql";
 
     const userByTokenQuery = `
       query UserByToken($token: String) {
@@ -84,7 +84,7 @@ export default function Dashboard() {
       });
   }
   async function saveLocation() {
-    const apiUrl = "http://localhost:3000/api/graphql";
+    const apiUrl = "/api/graphql";
 
     const updateUserMutation = `
   mutation UpdateUser($input: UpdateUserInput!) {
@@ -102,7 +102,7 @@ export default function Dashboard() {
       },
     };
 
-    console.log(updateUserVariables);
+    // console.log(updateUserVariables);
 
     axios
       .post(
