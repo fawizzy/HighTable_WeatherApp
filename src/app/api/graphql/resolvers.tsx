@@ -69,7 +69,7 @@ export const resolvers = {
           { email, hashed_password, location },
           secretKey!
         );
-        console.log(token);
+        // console.log(token);
         return token;
       } catch (error) {
         throw new Error("Failed to create user");
@@ -94,13 +94,13 @@ export const resolvers = {
         if (checkPassword) {
           const userHash = user.hashed_password;
           const token = jwt.sign({ email, userHash, location }, secretKey!);
-          console.log(token);
+          // console.log(token);
           return { token, user };
         } else {
           return null;
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw new Error("Failed to login");
       }
     },

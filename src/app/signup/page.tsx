@@ -22,8 +22,6 @@ export default function SignUpPage() {
       input: { email, username, password },
     };
 
-    console.log(variables);
-
     axios
       .post(
         apiUrl,
@@ -38,17 +36,15 @@ export default function SignUpPage() {
         }
       )
       .then((response) => {
-        console.log(response);
         const token = response.data?.data.createUser;
         saveToLocalStorage(token);
         router.push("/dashboard");
-        console.log("Response:", token);
       })
       .catch((error) => {
-        console.error(
-          "Error:",
-          error.response ? error.response.data : error.message
-        );
+        // console.error(
+        //   "Error:",
+        //   error.response ? error.response.data : error.message
+        // );
       });
   };
 
@@ -79,7 +75,6 @@ export default function SignUpPage() {
                 type="email"
                 onChange={(e) => {
                   e.preventDefault();
-                  console.log(e.target.value);
                   setEmail(e.target.value);
                 }}
                 required

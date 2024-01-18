@@ -139,6 +139,12 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">Weather App</h1>
+      <button
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-4"
+        onClick={toggleUnits}
+      >
+        Switch Units
+      </button>
       <div className="flex justify-end mb-4">
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
@@ -147,12 +153,7 @@ export default function Dashboard() {
           Save Current Location
         </button>
       </div>
-      <button
-        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-4"
-        onClick={toggleUnits}
-      >
-        Switch Units
-      </button>
+
       <div className="mb-4">
         <input
           type="text"
