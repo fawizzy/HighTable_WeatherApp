@@ -28,11 +28,11 @@ export default function Dashboard() {
   });
   useEffect(() => {
     getUserDataFromToken();
-  }, [getUserDataFromToken]);
+  }, []);
 
   const getWeather = async (location: string) => {
     const data = await axios.get(
-      `https://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
+      `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
     );
     setWeather(data.data.current);
     setLocationData(data.data.location);
