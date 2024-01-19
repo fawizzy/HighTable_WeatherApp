@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
@@ -26,6 +27,8 @@ export default function Dashboard() {
     cloud: 0,
     uv: 0,
   });
+
+  const router = useRouter();
   useEffect(() => {
     getUserDataFromToken();
   }, []);
@@ -136,6 +139,11 @@ export default function Dashboard() {
   function getFromLocalStorage() {
     return localStorage.getItem("token");
   }
+
+  const handleLogout = () => {
+    localStorage.setItem("token", "");
+    router.push("/");
+  };
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">Weather App</h1>
@@ -249,6 +257,14 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mt-6 text-center">
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleLogout}
+        >
+          Log Out
+        </button>
       </div>
     </div>
   );
