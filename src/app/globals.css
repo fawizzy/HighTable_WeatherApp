@@ -17,12 +17,8 @@
 } */
 
 body {
-  margin: 25px;
+  margin: 2%;
+  padding: auto;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
 }
