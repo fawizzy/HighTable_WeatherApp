@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   const getWeather = async (location: string) => {
     const data = await axios.get(
-      `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
+      `https://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
     );
     setWeather(data.data.current);
     setLocationData(data.data.location);
