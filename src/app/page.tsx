@@ -7,6 +7,7 @@ import Link from "next/link";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const apiUrl = "/api/graphql";
@@ -57,10 +58,13 @@ export default function Home() {
         //   "Error:",
         //   error.response ? error.response.data : error.message
         // );
+        setError(true);
       });
     const saveToLocalStorage = (token: string) => {
       localStorage.setItem("token", token);
     };
+
+    setError(false);
   };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -71,6 +75,11 @@ export default function Home() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {error && (
+          <div className="text-red-500 mb-4">
+            Invalid email or password. Please try again.
+          </div>
+        )}
         <form className="space-y-6" action="#" method="POST">
           <div>
             <label

@@ -4,8 +4,8 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 173, 216, 230; /* Light blue start color */
-  --background-end-rgb: 255, 255, 255; /* White end color */
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -17,6 +17,7 @@
 } */
 
 body {
+  margin-top: 25px;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
